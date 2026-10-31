@@ -37,10 +37,6 @@ payments → revenue reporting, with a self-service portal for customers.
 - **Frontend:** React 19 · TypeScript · Vite · Tailwind CSS · TanStack Query · Recharts · lucide icons
 - **Tests:** pytest against a real PostgreSQL database; Playwright used for UI verification
 
-> **Architecture decision.** The hackathon permits an independent application, so Subsy is a standalone
-> FastAPI + React app rather than an Odoo addon. The domain model deliberately mirrors Odoo's subscription
-> concepts (a subscription *is* the quotation until confirmed; Draft → Quotation → Confirmed → Active → Closed).
-
 ## Project structure
 
 ```
