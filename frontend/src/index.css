@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { -webkit-font-smoothing: antialiased; }
+  body { @apply bg-canvas text-ink font-sans text-[14px] leading-relaxed; }
+  h1, h2, h3 { @apply font-display text-ink tracking-tight; }
+  ::selection { @apply bg-brand-100 text-brand-900; }
+  :focus-visible { @apply outline-none ring-2 ring-brand-400/60 ring-offset-1; }
+}
+
+@layer base {
+  /* grid/flex children may shrink below their content so wide tables scroll inside their card, not the page */
+  .grid > * { min-width: 0; }
+}
+
+@layer components {
+  .card { @apply bg-white border border-line rounded-xl shadow-card; }
+  .input {
+    @apply w-full h-9 rounded-lg border border-line bg-white px-3 text-[14px] text-ink placeholder:text-ink-faint
+           transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none disabled:bg-canvas disabled:text-ink-soft;
+  }
+  textarea.input { @apply h-auto py-2; }
+  .label { @apply block text-[12px] font-semibold text-ink-soft mb-1 uppercase tracking-wide; }
+  .num { @apply font-mono tabular-nums; }
+  .th { @apply px-4 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-soft bg-canvas/70 whitespace-nowrap; }
+  .td { @apply px-4 py-3 border-t border-line align-middle; }
+  .link { @apply text-brand-700 hover:text-brand-800 hover:underline underline-offset-2 font-medium; }
+  .skeleton { @apply relative overflow-hidden rounded bg-gray-100; }
+  .skeleton::after {
+    content: ''; @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent);
+    animation: shimmer 1.2s infinite;
+  }
+}
+
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+  .card { box-shadow: none; border: none; }
+}
