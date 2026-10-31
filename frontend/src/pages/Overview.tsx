@@ -1,8 +1,9 @@
 import {
   AlertTriangle, ArrowRight, BadgeIndianRupee, CalendarClock, FileClock, FileText, Hourglass, Play, Receipt, Repeat,
-  TrendingUp, Users, Wallet,
+  TrendingUp, Users, Wallet, X, FlaskConical,
 } from 'lucide-react'
 import { useNavigate, Link } from 'react-router-dom'
+import { useState } from 'react'
 import {
   Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts'
@@ -25,6 +26,58 @@ export interface Dashboard {
   billing_activity: { date: string; invoiced: number; failed: number; pending: number }[]
   top_overdue: { id: number; number: string; customer: string; due_date: string; days_overdue: number; amount_due: number }[]
   recent_activity: { id: number; action: string; entity: string; entity_id: number; user: string; at: string }[]
+}
+
+const DEMO_STEPS = [
+  { label: 'Dashboard', desc: 'KPIs, charts and overdue invoices are live from the database', to: '/' },
+  { label: 'Subscriptions', desc: 'Manage lifecycle: confirm → activate → pause → renew → close', to: '/subscriptions' },
+  { label: 'Run billing', desc: 'Click "Run billing now" above to generate this period\'s invoices', to: null },
+  { label: 'Invoices', desc: 'Confirm, send, record payment, download PDF', to: '/invoices' },
+  { label: 'Reports', desc: 'Revenue, subscriptions, payments and discount analytics with CSV export', to: '/reports' },
+  { label: 'Customer portal', desc: 'Log in as priya@sparkshop.demo to see the customer view', to: null },
+]
+
+function WelcomeCard() {
+  const [visible, setVisible] = useState(() => {
+    try { return localStorage.getItem('subsy.welcome_dismissed') !== '1' } catch { return true }
+  })
+  if (!visible) return null
+  return (
+    <div className="mb-5 rounded-2xl border border-amber-200 bg-amber-50 p-5">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <FlaskConical className="h-5 w-5 text-amber-600 shrink-0" />
+          <h2 className="font-display text-[15px] font-bold text-amber-900">Welcome to Subsy — Hackathon Demo</h2>
+        </div>
+        <button onClick={() => { setVisible(false); try { localStorage.setItem('subsy.welcome_dismissed', '1') } catch { /* */ } }}
+          className="rounded p-0.5 text-amber-500 hover:bg-amber-200" aria-label="Dismiss">
+          <X className="h-4 w-4" />
+        </button>
+      </div>
+      <p className="mt-1 text-[13px] text-amber-800">
+        Brightloop Software · 14 demo customers · 17 subscriptions replayed month-by-month · all calculations are real
+      </p>
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {DEMO_STEPS.map((s) => (
+          <div key={s.label} className="flex gap-2.5 rounded-xl bg-white border border-amber-100 p-3">
+            <span className="mt-0.5 h-4 w-4 shrink-0 rounded-full bg-amber-400 text-[9px] font-bold text-white grid place-items-center">✓</span>
+            <div className="min-w-0">
+              {s.to
+                ? <Link to={s.to} className="block font-semibold text-[13px] text-brand-700 hover:underline">{s.label}</Link>
+                : <p className="font-semibold text-[13px] text-ink">{s.label}</p>}
+              <p className="text-[12px] text-ink-soft leading-tight">{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="mt-3 text-[11px] text-amber-700">
+        Demo accounts (password: <code className="font-mono font-bold">Subsy@Demo2026</code>):
+        <span className="ml-2 font-semibold">admin@brightloop.demo</span> ·
+        <span className="ml-1 font-semibold">staff@brightloop.demo</span> ·
+        <span className="ml-1 font-semibold">priya@sparkshop.demo</span> (customer)
+      </p>
+    </div>
+  )
 }
 
 export function DashFilters({ f, set }: { f: Record<string, string>; set: (p: Record<string, string>) => void }) {
@@ -61,6 +114,7 @@ export default function Overview() {
             onClick={() => run('bill', () => api<Msg>('/billing/run', { method: 'POST' }), (r) => r.message)}>Run billing now</Button>
         </>} />
       {error && <ErrorBox error={error} onRetry={refetch} />}
+      <WelcomeCard />
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         {isLoading || !k ? Array.from({ length: 12 }).map((_, i) => <Skeleton key={i} className="h-[104px] rounded-xl" />) : <>

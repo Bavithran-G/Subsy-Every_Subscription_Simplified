@@ -1,6 +1,6 @@
 import { clsx } from 'clsx'
 import {
-  BarChart3, Bell, Boxes, ChevronsLeft, ChevronsRight, CreditCard, FileText, LayoutDashboard, LogOut, Menu,
+  BarChart3, Bell, Boxes, ChevronsLeft, ChevronsRight, CreditCard, FileText, FlaskConical, LayoutDashboard, LogOut, Menu,
   Percent, Receipt, Repeat, Search, Settings, ShieldCheck, User as UserIcon, Users, Layers, X,
 } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
@@ -140,6 +140,31 @@ function ProfileMenu() {
   )
 }
 
+function DemoBanner() {
+  const [visible, setVisible] = useState(() => {
+    try { return localStorage.getItem('subsy.demo_banner_dismissed') !== '1' } catch { return true }
+  })
+  if (!visible) return null
+  return (
+    <div className="no-print flex items-center justify-between gap-3 bg-amber-50 border-b border-amber-200 px-4 py-2 text-[12px] text-amber-800">
+      <div className="flex items-center gap-2">
+        <FlaskConical className="h-3.5 w-3.5 shrink-0 text-amber-600" />
+        <span>
+          <span className="font-bold uppercase tracking-wide">Demo mode</span>
+          <span className="mx-1.5 text-amber-400">·</span>
+          Brightloop Software · all data is seeded for demonstration · payments and emails are simulated
+          <span className="mx-1.5 text-amber-400">·</span>
+          Password for all accounts: <code className="rounded bg-amber-100 px-1 font-mono font-bold">Subsy@Demo2026</code>
+        </span>
+      </div>
+      <button onClick={() => { setVisible(false); try { localStorage.setItem('subsy.demo_banner_dismissed', '1') } catch { /* */ } }}
+        className="shrink-0 rounded p-0.5 hover:bg-amber-200" aria-label="Dismiss demo banner">
+        <X className="h-3.5 w-3.5" />
+      </button>
+    </div>
+  )
+}
+
 export default function AppLayout() {
   const { user } = useAuth()
   const [collapsed, setCollapsed] = useState(() => { try { return localStorage.getItem('subsy.sidebar') === '1' } catch { return false } })
@@ -190,6 +215,7 @@ export default function AppLayout() {
       )}
 
       <div className="flex min-w-0 flex-1 flex-col">
+        <DemoBanner />
         <header className="no-print sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-line bg-white/90 px-4 backdrop-blur md:px-6">
           <button className="grid h-9 w-9 place-items-center rounded-lg hover:bg-gray-100 md:hidden" onClick={() => setMobile(true)} aria-label="Open menu"><Menu className="h-5 w-5" /></button>
           <span className="md:hidden"><Wordmark collapsed /></span>
