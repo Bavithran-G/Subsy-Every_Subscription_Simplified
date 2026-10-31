@@ -45,7 +45,17 @@ def _user(db, email, name, role):
 def seed(today: date | None = None):
     db = SessionLocal()
     if db.get(AppSetting, MARKER):
-        print("Demo data already present — nothing to do.")
+        updated = 0
+        for c in db.scalars(select(Customer).where(Customer.is_demo == True)).all():  # noqa: E712
+            if not c.user_id:
+                u = _user(db, c.email, c.name, Role.customer)
+                c.user_id = u.id
+                updated += 1
+        if updated:
+            db.commit()
+            print(f"Created portal user accounts for {updated} demo customers.")
+        else:
+            print("Demo data already present — nothing to do.")
         db.close()
         return
     real_today = today or clock.today()
@@ -152,8 +162,9 @@ def seed(today: date | None = None):
         db.add(c)
         customers.append(c)
     db.flush()
-    portal_user = _user(db, "priya@sparkshop.demo", "Priya Sharma", Role.customer)
-    customers[0].user_id = portal_user.id
+    for c in customers:
+        portal_user = _user(db, c.email, c.name, Role.customer)
+        c.user_id = portal_user.id
     db.commit()
 
     # ------------- replay history -------------
