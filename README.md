@@ -3,7 +3,7 @@
 **Subsy** is a subscription management system built for the ODOO Cochin Hackathon problem statement
 *Subscription Management System*. It runs the whole life of a subscription business for the fictional
 **Brightloop Software**: products and plans → quotations → subscriptions → automatic recurring invoices →
-payments → revenue reporting, with a self-service portal for customers.
+payments → revenue reporting, with a self-service portal for customers
 
 > One business event updates every downstream record. When a subscription falls due, the billing engine
 > creates exactly one invoice for that period — with prices, taxes and discounts applied by rule — records the
