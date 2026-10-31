@@ -65,7 +65,7 @@ frontend/
 ### Prerequisites
 - Python 3.12 or newer
 - Node.js 20 or newer
-- PostgreSQL 14 or newer
+- PostgreSQL 14 or newer.
 
 ### 1. Database
 ```bash
