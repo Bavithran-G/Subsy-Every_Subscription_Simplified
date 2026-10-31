@@ -22,7 +22,14 @@ npm run dev
 # ==========================================
 # Demo Logins (Password for all: Subsy@Demo2026)
 # ==========================================
-# Admin:    admin@brightloop.demo
-# Staff:    staff@brightloop.demo
-# Customer: priya@sparkshop.demo
+# Internal Roles:
+#   Admin:    admin@brightloop.demo
+#   Staff:    staff@brightloop.demo
 
+# Customer Portal (Log in to see individual subscriptions, invoices, and payments):
+#   1. Priya Sharma (SparkShop Retail)       -> priya@sparkshop.demo     [2 subs, 12 invoices]
+#   2. Arjun Nair (KochiKart)                -> arjun@kochikart.demo     [2 subs, 42 invoices]
+#   3. Fatima Khan (Chaiwala Cafés)          -> fatima@chaiwala.demo     [2 subs, 11 invoices]
+#   4. Rahul Verma (Verma Auto Parts)        -> rahul@vermaauto.demo     [2 subs, 27 invoices]
+#   5. Lakshmi Pillai (Backwater Stays)      -> lakshmi@backwater.demo   [1 sub (paused/resumed), 8 invoices]
+#   6. Ananya Das (Tatvik Industries - Ent.) -> procurement@tatvik.demo  [1 enterprise sub, invoices]
