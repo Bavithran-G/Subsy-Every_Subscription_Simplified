@@ -1,0 +1,28 @@
+# Subsy - Run Commands
+
+# ==========================================
+# Terminal 1 - Backend (FastAPI)
+# ==========================================
+Set-Location "d:\Hackathon\Subsy\Subsy-Every_Subscription_Simplified\backend"
+uvicorn app.main:app --reload --port 8000
+
+# Backend runs at: http://localhost:8000
+# API documentation: http://localhost:8000/docs
+
+
+# ==========================================
+# Terminal 2 - Frontend (React + Vite)
+# ==========================================
+Set-Location "d:\Hackathon\Subsy\Subsy-Every_Subscription_Simplified\frontend"
+npm run dev
+
+# Frontend runs at: http://localhost:5173
+
+
+# ==========================================
+# Demo Logins (Password for all: Subsy@Demo2026)
+# ==========================================
+# Admin:    admin@brightloop.demo
+# Staff:    staff@brightloop.demo
+# Customer: priya@sparkshop.demo
+
